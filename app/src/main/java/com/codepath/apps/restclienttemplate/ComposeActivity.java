@@ -48,6 +48,14 @@ public class ComposeActivity extends AppCompatActivity {
 
         setupButtonListener();
         etTweet.addTextChangedListener(mTextEditorWatcher);
+
+        // for replies
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null && extras.containsKey("replyTo")) {
+            String replyTo = extras.getString("replyTo");
+            etTweet.setText("@" + replyTo + " ");
+        }
     }
 
     @Override

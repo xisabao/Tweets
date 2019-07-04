@@ -1,22 +1,24 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
     private List<Tweet> mTweets;
@@ -44,7 +46,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // get the data according to position
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
 
         // populate the views according to this data
         holder.tvUsername.setText(tweet.user.name);
@@ -52,6 +54,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvTimestamp.setText(getRelativeTimeAgo(tweet.createdAt));
 
         Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+
+        holder.btReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ComposeActivity.class);
+                intent.putExtra("replyTo", tweet.user.screenName);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -66,6 +77,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvUsername;
         public TextView tvBody;
         public TextView tvTimestamp;
+        public Button btReply;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,7 +88,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUserName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
             tvBody = itemView.findViewById(R.id.tvBody);
+            btReply = itemView.findViewById(R.id.btReply);
+
         }
+
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -106,4 +121,5 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         mTweets.addAll(list);
         notifyDataSetChanged();
     }
+
 }
