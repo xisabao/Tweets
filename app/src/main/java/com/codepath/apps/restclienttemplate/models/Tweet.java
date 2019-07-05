@@ -13,6 +13,8 @@ public class Tweet {
     public String createdAt;
     public boolean retweeted;
     public boolean favorited;
+    public boolean media;
+    public String media_url;
 
     public Tweet() {}
 
@@ -27,6 +29,13 @@ public class Tweet {
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.media = false;
+
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        if (entities.has("media")) {
+            tweet.media_url = entities.getJSONArray("media").getJSONObject(0).getString("media_url_https");
+            tweet.media = true;
+        }
         return tweet;
     }
 

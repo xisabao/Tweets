@@ -29,6 +29,7 @@ public class DetailActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
 
     public ImageView ivProfileImage;
+    public ImageView ivMedia;
     public TextView tvUsername;
     public TextView tvBody;
     public TextView tvTimestamp;
@@ -53,6 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
 
         ivProfileImage = findViewById(R.id.ivProfileImage);
+        ivMedia = findViewById(R.id.ivMedia);
         tvUsername = findViewById(R.id.tvUserName);
         tvBody = findViewById(R.id.tvBody);
         tvTimestamp = findViewById(R.id.tvTimestamp);
@@ -71,6 +73,13 @@ public class DetailActivity extends AppCompatActivity {
         tvTimestamp.setText(TweetAdapter.getRelativeTimeAgo(tweet.createdAt));
 
         Glide.with(this).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(this, 10, 0)).into(ivProfileImage);
+
+        if (tweet.media) {
+            ivMedia.setVisibility(View.VISIBLE);
+            Glide.with(DetailActivity.this).load(tweet.media_url).bitmapTransform(new RoundedCornersTransformation(DetailActivity.this, 10, 0)).into(ivMedia);
+        } else {
+            ivMedia.setVisibility(View.GONE);
+        }
 
         if (tweet.retweeted) {
             btRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);

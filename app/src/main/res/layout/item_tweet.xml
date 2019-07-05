@@ -61,7 +61,7 @@
         android:id="@+id/btReply"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/tvBody"
+        android:layout_below="@+id/ivMedia"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/ivProfileImage"
@@ -71,7 +71,7 @@
         android:id="@+id/btRetweet"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/tvBody"
+        android:layout_below="@+id/ivMedia"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/btReply"
@@ -81,7 +81,7 @@
         android:id="@+id/btFavorite"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_below="@+id/tvBody"
+        android:layout_below="@+id/ivMedia"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/btRetweet"
@@ -97,5 +97,18 @@
         android:layout_toEndOf="@+id/tvUserName"
         android:text="TextView"
         android:textColor="@android:color/darker_gray" />
+
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="680dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        app:srcCompat="@android:color/black" />
 
 </RelativeLayout>

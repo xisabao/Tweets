@@ -71,6 +71,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         Glide.with(context).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(context, 10, 0)).into(holder.ivProfileImage);
 
+        if (tweet.media) {
+            holder.ivMedia.setVisibility(View.VISIBLE);
+            Glide.with(context).load(tweet.media_url).bitmapTransform(new RoundedCornersTransformation(context, 10, 0)).into(holder.ivMedia);
+        } else {
+            holder.ivMedia.setVisibility(View.GONE);
+        }
+
         if (tweet.retweeted) {
             holder.btRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
         } else {
@@ -242,6 +249,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView ivProfileImage;
+        public ImageView ivMedia;
         public TextView tvUsername;
         public TextView tvBody;
         public TextView tvTimestamp;
@@ -256,6 +264,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             // perform findViewById lookups
 
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
+            ivMedia = itemView.findViewById(R.id.ivMedia);
             tvUsername = itemView.findViewById(R.id.tvUserName);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
