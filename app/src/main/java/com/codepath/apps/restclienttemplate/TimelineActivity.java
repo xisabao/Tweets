@@ -183,11 +183,12 @@ public class TimelineActivity extends AppCompatActivity {
                         Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
                         tweets.add(tweet);
                         tweetAdapter.notifyItemInserted(tweets.size() - 1);
-                        hideProgressBar();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                hideProgressBar();
                 swipeContainer.setRefreshing(false);
             }
 

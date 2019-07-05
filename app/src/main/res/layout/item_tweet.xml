@@ -56,8 +56,8 @@
 
     <Button
         android:id="@+id/btReply"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/tvBody"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
@@ -66,8 +66,8 @@
 
     <Button
         android:id="@+id/btRetweet"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/tvBody"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
@@ -76,8 +76,8 @@
 
     <Button
         android:id="@+id/btFavorite"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/tvBody"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"

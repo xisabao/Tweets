@@ -71,6 +71,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         Glide.with(context).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(context, 10, 0)).into(holder.ivProfileImage);
 
+        if (tweet.retweeted) {
+            holder.btRetweet.setBackgroundResource(R.drawable.ic_vector_retweet);
+        } else {
+            holder.btRetweet.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+        }
+
+        if (tweet.favorited) {
+            holder.btFavorite.setBackgroundResource(R.drawable.ic_vector_heart);
+        } else {
+            holder.btFavorite.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+        }
+
         holder.btReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,72 +93,142 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         });
         holder.btRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                client.postRetweet(tweet.uid, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Toast.makeText(context, "Tweet retweeted!", Toast.LENGTH_SHORT).show();
-                    }
+            public void onClick(final View v) {
+                if (tweet.retweeted) {
+                    client.postUnretweet(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(context, "Tweet unretweeted!", Toast.LENGTH_SHORT).show();
+                            v.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                        }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        Log.d("TwitterClient", response.toString());
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("TwitterClient", response.toString());
 
-                    }
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.d("TwitterClient", responseString);
-                        throwable.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("TwitterClient", responseString);
+                            throwable.printStackTrace();
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        Log.d("TwitterClient", errorResponse.toString());
-                        throwable.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Log.d("TwitterClient", errorResponse.toString());
-                        throwable.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+                } else {
+                    client.postRetweet(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(context, "Tweet retweeted!", Toast.LENGTH_SHORT).show();
+                            v.setBackgroundResource(R.drawable.ic_vector_retweet);
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("TwitterClient", response.toString());
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("TwitterClient", responseString);
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
             }
         });
         holder.btFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                client.postFavorite(tweet.uid, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        Toast.makeText(context, "Tweet favorited!", Toast.LENGTH_SHORT).show();
-                    }
+            public void onClick(final View v) {
+                if (tweet.favorited) {
+                    client.destroyFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(context, "Tweet unfavorited!", Toast.LENGTH_SHORT).show();
+                            v.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                        }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        Log.d("TwitterClient", response.toString());
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("TwitterClient", response.toString());
 
-                    }
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.d("TwitterClient", responseString);
-                        throwable.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("TwitterClient", responseString);
+                            throwable.printStackTrace();
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        Log.d("TwitterClient", errorResponse.toString());
-                        throwable.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Log.d("TwitterClient", errorResponse.toString());
-                        throwable.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+                } else {
+                    client.postFavorite(tweet.uid, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Toast.makeText(context, "Tweet favorited!", Toast.LENGTH_SHORT).show();
+                            v.setBackgroundResource(R.drawable.ic_vector_heart);
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            Log.d("TwitterClient", response.toString());
+
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d("TwitterClient", responseString);
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.d("TwitterClient", errorResponse.toString());
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
             }
         });
     }
