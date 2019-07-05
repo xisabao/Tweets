@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailActivity extends AppCompatActivity {
@@ -72,7 +73,7 @@ public class DetailActivity extends AppCompatActivity {
         tvBody.setText(tweet.body);
         tvTimestamp.setText(TweetAdapter.getRelativeTimeAgo(tweet.createdAt));
 
-        Glide.with(this).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(this, 10, 0)).into(ivProfileImage);
+        Glide.with(this).load(tweet.user.profileImageUrl).bitmapTransform(new CropCircleTransformation(DetailActivity.this)).into(ivProfileImage);
 
         if (tweet.media) {
             ivMedia.setVisibility(View.VISIBLE);

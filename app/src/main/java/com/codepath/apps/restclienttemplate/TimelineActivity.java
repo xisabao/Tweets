@@ -31,6 +31,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
     MenuItem miActionProgressItem;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     private final int REQUEST_CODE = 20;
 
@@ -54,7 +55,8 @@ public class TimelineActivity extends AppCompatActivity {
         // construct the adapter from this datasource
         tweetAdapter = new TweetAdapter(tweets);
         // RecyclerView setup (layout manager, use adapter)
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
         // set the adapter
         rvTweets.setAdapter(tweetAdapter);
 
@@ -64,7 +66,7 @@ public class TimelineActivity extends AppCompatActivity {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchTimelineAsync(0);
+                fetchTimelineAsync();
             }
         });
 
@@ -72,6 +74,19 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                long max_id = tweets.get(tweets.size() - 1).uid;
+                loadNextTweets(max_id);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvTweets.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -169,7 +184,46 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchTimelineAsync(int page) {
+    public void loadNextTweets(long max_id) {
+        showProgressBar();
+        client.getHomeTimelineWithMax(max_id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
+                        tweets.add(tweet);
+                        tweetAdapter.notifyItemInserted(tweets.size() - 1);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                hideProgressBar();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("TwitterClient", responseString);
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+
+    public void fetchTimelineAsync() {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
@@ -189,6 +243,7 @@ public class TimelineActivity extends AppCompatActivity {
                     }
                 }
                 hideProgressBar();
+                scrollListener.resetState();
                 swipeContainer.setRefreshing(false);
             }
 
@@ -212,6 +267,7 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
     }
+
 
 
 }
