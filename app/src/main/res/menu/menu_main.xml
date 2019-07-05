@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/tweetCompose"
-        android:icon="@drawable/ic_compose"
+        android:icon="@drawable/ic_vector_compose"
         app:showAsAction="ifRoom"
-        android:title="Compose">
+        android:title="Compose"
+        android:iconTint="#fff">
     </item>
     <item
         android:id="@+id/miActionProgress"

@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DetailActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
@@ -31,6 +32,7 @@ public class DetailActivity extends AppCompatActivity {
     public TextView tvUsername;
     public TextView tvBody;
     public TextView tvTimestamp;
+    public TextView tvScreenName;
 
     public Button btReply;
     public Button btRetweet;
@@ -46,24 +48,29 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
+
         client = TwitterApp.getRestClient(this);
 
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvUsername = findViewById(R.id.tvUserName);
         tvBody = findViewById(R.id.tvBody);
         tvTimestamp = findViewById(R.id.tvTimestamp);
+        tvScreenName = findViewById(R.id.tvScreenName);
 
         btReply = findViewById(R.id.btReply);
         btRetweet = findViewById(R.id.btRetweet);
         btFavorite = findViewById(R.id.btFavorite);
 
+
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
 
         tvUsername.setText(tweet.user.name);
+        tvScreenName.setText("@" + tweet.user.screenName);
         tvBody.setText(tweet.body);
         tvTimestamp.setText(TweetAdapter.getRelativeTimeAgo(tweet.createdAt));
 
-        Glide.with(this).load(tweet.user.profileImageUrl).into(ivProfileImage);
+        Glide.with(this).load(tweet.user.profileImageUrl).bitmapTransform(new RoundedCornersTransformation(this, 10, 0)).into(ivProfileImage);
 
         btReply.setOnClickListener(new View.OnClickListener() {
             @Override

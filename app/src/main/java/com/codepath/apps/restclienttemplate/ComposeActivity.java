@@ -40,6 +40,8 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
         context = this;
 
+
+
         client = TwitterApp.getRestClient(this);
 
         etTweet = findViewById(R.id.etTweet);

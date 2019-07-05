@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivProfileImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
@@ -23,25 +23,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/tvBody"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvScreenName"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
-        app:layout_constraintTop_toTopOf="@+id/ivProfileImage" />
+        app:layout_constraintTop_toTopOf="@+id/ivProfileImage"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvScreenName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintBottom_toTopOf="@+id/tvBody"
+        app:layout_constraintStart_toEndOf="@+id/tvUserName" />
 
     <TextView
         android:id="@+id/tvBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUserName"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/tvUserName" />
 
@@ -52,22 +67,20 @@
         android:layout_below="@+id/tvBody"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBody" />
+        app:layout_constraintBottom_toBottomOf="@+id/btFavorite"
+        app:layout_constraintEnd_toEndOf="@+id/tvBody" />
 
     <Button
         android:id="@+id/btReply"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_below="@+id/tvBody"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:background="@android:drawable/ic_menu_revert"
+        android:background="@drawable/ic_vector_reply"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/tvBody" />
 
@@ -75,9 +88,9 @@
         android:id="@+id/btRetweet"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/ic_menu_rotate"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_vector_retweet_stroke"
         app:layout_constraintStart_toEndOf="@+id/btReply"
         app:layout_constraintTop_toBottomOf="@+id/tvBody" />
 
@@ -85,9 +98,9 @@
         android:id="@+id/btFavorite"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/star_big_on"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_vector_heart_stroke"
         app:layout_constraintStart_toEndOf="@+id/btRetweet"
         app:layout_constraintTop_toBottomOf="@+id/tvBody" />
 </android.support.constraint.ConstraintLayout>
