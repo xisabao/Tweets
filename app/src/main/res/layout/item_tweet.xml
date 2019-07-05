@@ -41,7 +41,10 @@
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:text="TextView"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColorLink="@color/twitter_blue"/>
 
     <TextView
         android:id="@+id/tvTimestamp"
