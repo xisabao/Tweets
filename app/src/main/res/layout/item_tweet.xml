@@ -47,11 +47,31 @@
 
     <Button
         android:id="@+id/btReply"
-        android:layout_width="30dp"
+        android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_below="@+id/tvBody"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:background="@android:drawable/ic_menu_revert" />
+
+    <Button
+        android:id="@+id/btRetweet"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/btReply"
+        android:background="@android:drawable/ic_menu_rotate" />
+
+    <Button
+        android:id="@+id/btFavorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_toEndOf="@+id/btRetweet"
+        android:background="@android:drawable/star_big_on" />
 </RelativeLayout>
