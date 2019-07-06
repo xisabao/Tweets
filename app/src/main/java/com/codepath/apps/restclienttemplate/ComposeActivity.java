@@ -23,14 +23,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
     MenuItem miActionProgressItem;
 
-    TextView etTweet;
-    TextView tvCharacterCount;
-    Button butTweet;
+    @BindView(R.id.etTweet) TextView etTweet;
+    @BindView(R.id.tvCharacterCount) TextView tvCharacterCount;
+    @BindView(R.id.butTweet) Button butTweet;
     TwitterClient client;
     Context context;
 
@@ -39,14 +41,9 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
         context = this;
-
-
+        ButterKnife.bind(this);
 
         client = TwitterApp.getRestClient(this);
-
-        etTweet = findViewById(R.id.etTweet);
-        butTweet = findViewById(R.id.butTweet);
-        tvCharacterCount = findViewById(R.id.tvCharacterCount);
 
         setupButtonListener();
         etTweet.addTextChangedListener(mTextEditorWatcher);

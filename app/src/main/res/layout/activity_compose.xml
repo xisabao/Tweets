@@ -13,6 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:textColor="#000"
         android:editable="true"
         android:ems="10"
         android:hint="Write your tweet here"

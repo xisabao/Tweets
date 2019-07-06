@@ -24,12 +24,14 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 
 public class TimelineActivity extends AppCompatActivity {
 
-    private SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     MenuItem miActionProgressItem;
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -38,18 +40,17 @@ public class TimelineActivity extends AppCompatActivity {
     TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
-    RecyclerView rvTweets;
+    @BindView(R.id.rvTweet) RecyclerView rvTweets;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+        ButterKnife.bind(this);
 
         client = TwitterApp.getRestClient(this);
 
-        //find the RecyclerView
-        rvTweets = findViewById(R.id.rvTweet);
         // init the arraylist (datasource)
         tweets = new ArrayList<>();
         // construct the adapter from this datasource
@@ -62,7 +63,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         populateTimeline();
 
-        swipeContainer = findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

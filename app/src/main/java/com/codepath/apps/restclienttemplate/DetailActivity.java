@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -29,16 +31,15 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class DetailActivity extends AppCompatActivity {
     private final int REQUEST_CODE = 20;
 
-    public ImageView ivProfileImage;
-    public ImageView ivMedia;
-    public TextView tvUsername;
-    public TextView tvBody;
-    public TextView tvTimestamp;
-    public TextView tvScreenName;
-
-    public Button btReply;
-    public Button btRetweet;
-    public Button btFavorite;
+    public @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+    public @BindView(R.id.ivMedia) ImageView ivMedia;
+    public @BindView((R.id.tvUserName)) TextView tvUsername;
+    public @BindView(R.id.tvBody) TextView tvBody;
+    public @BindView(R.id.tvTimestamp) TextView tvTimestamp;
+    public @BindView(R.id.tvScreenName) TextView tvScreenName;
+    public @BindView(R.id.btReply) Button btReply;
+    public @BindView(R.id.btRetweet) Button btRetweet;
+    public @BindView(R.id.btFavorite) Button btFavorite;
 
     TwitterClient client;
 
@@ -49,22 +50,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-
+        ButterKnife.bind(this);
 
         client = TwitterApp.getRestClient(this);
-
-        ivProfileImage = findViewById(R.id.ivProfileImage);
-        ivMedia = findViewById(R.id.ivMedia);
-        tvUsername = findViewById(R.id.tvUserName);
-        tvBody = findViewById(R.id.tvBody);
-        tvTimestamp = findViewById(R.id.tvTimestamp);
-        tvScreenName = findViewById(R.id.tvScreenName);
-
-        btReply = findViewById(R.id.btReply);
-        btRetweet = findViewById(R.id.btRetweet);
-        btFavorite = findViewById(R.id.btFavorite);
-
 
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
 
@@ -109,8 +97,8 @@ public class DetailActivity extends AppCompatActivity {
                         client.postUnretweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Toast.makeText(DetailActivity.this, "Tweet unretweeted!", Toast.LENGTH_SHORT).show();
                                 v.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                                tweet.retweeted = false;
                             }
 
                             @Override
@@ -141,8 +129,8 @@ public class DetailActivity extends AppCompatActivity {
                         client.postRetweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Toast.makeText(DetailActivity.this, "Tweet retweeted!", Toast.LENGTH_SHORT).show();
                                 v.setBackgroundResource(R.drawable.ic_vector_retweet);
+                                tweet.retweeted = true;
                             }
 
                             @Override
@@ -179,8 +167,8 @@ public class DetailActivity extends AppCompatActivity {
                         client.destroyFavorite(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Toast.makeText(DetailActivity.this, "Tweet unfavorited!", Toast.LENGTH_SHORT).show();
                                 v.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                                tweet.favorited = false;
                             }
 
                             @Override
@@ -211,8 +199,8 @@ public class DetailActivity extends AppCompatActivity {
                         client.postFavorite(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                Toast.makeText(DetailActivity.this, "Tweet favorited!", Toast.LENGTH_SHORT).show();
                                 v.setBackgroundResource(R.drawable.ic_vector_heart);
+                                tweet.favorited = true;
                             }
 
                             @Override

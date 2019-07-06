@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -28,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -106,8 +107,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     client.postUnretweet(tweet.uid, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Toast.makeText(context, "Tweet unretweeted!", Toast.LENGTH_SHORT).show();
                             v.setBackgroundResource(R.drawable.ic_vector_retweet_stroke);
+                            tweet.retweeted = false;
                         }
 
                         @Override
@@ -138,8 +139,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     client.postRetweet(tweet.uid, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Toast.makeText(context, "Tweet retweeted!", Toast.LENGTH_SHORT).show();
                             v.setBackgroundResource(R.drawable.ic_vector_retweet);
+                            tweet.retweeted = true;
                         }
 
                         @Override
@@ -176,8 +177,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     client.destroyFavorite(tweet.uid, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Toast.makeText(context, "Tweet unfavorited!", Toast.LENGTH_SHORT).show();
                             v.setBackgroundResource(R.drawable.ic_vector_heart_stroke);
+                            tweet.favorited = false;
                         }
 
                         @Override
@@ -208,8 +209,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     client.postFavorite(tweet.uid, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Toast.makeText(context, "Tweet favorited!", Toast.LENGTH_SHORT).show();
                             v.setBackgroundResource(R.drawable.ic_vector_heart);
+                            tweet.favorited = true;
                         }
 
                         @Override
@@ -249,32 +250,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     // create ViewHolder class
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView ivProfileImage;
-        public ImageView ivMedia;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvTimestamp;
-        public TextView tvScreenName;
-        public Button btReply;
-        public Button btRetweet;
-        public Button btFavorite;
+        public @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+        public @BindView(R.id.ivMedia) ImageView ivMedia;
+        public @BindView((R.id.tvUserName)) TextView tvUsername;
+        public @BindView(R.id.tvBody) TextView tvBody;
+        public @BindView(R.id.tvTimestamp) TextView tvTimestamp;
+        public @BindView(R.id.tvScreenName) TextView tvScreenName;
+        public @BindView(R.id.btReply) Button btReply;
+        public @BindView(R.id.btRetweet) Button btRetweet;
+        public @BindView(R.id.btFavorite) Button btFavorite;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             // perform findViewById lookups
 
-            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-            ivMedia = itemView.findViewById(R.id.ivMedia);
-            tvUsername = itemView.findViewById(R.id.tvUserName);
-            tvScreenName = itemView.findViewById(R.id.tvScreenName);
-            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
-            tvBody = itemView.findViewById(R.id.tvBody);
-            btReply = itemView.findViewById(R.id.btReply);
-            btRetweet = itemView.findViewById(R.id.btRetweet);
-            btFavorite = itemView.findViewById(R.id.btFavorite);
-
-
+            ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(this);
         }
